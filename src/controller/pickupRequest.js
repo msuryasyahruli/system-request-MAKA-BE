@@ -57,41 +57,63 @@ const pickupRequestController = {
   },
 
   createPickupRequest: async (req, res) => {
-    const {
-      po_number,
-      part_name,
-      quantity,
-      dimensi_part,
-      weight,
-      pickup_address,
-      destination_address,
-      pickup_date,
-      supplier_name,
-      requester_name,
-      import_documents,
-      shipping_options,
-    } = req.body;
-    const id = uuidv4();
-    const data = {
-      id,
-      po_number,
-      part_name,
-      quantity,
-      dimensi_part,
-      weight,
-      pickup_address,
-      destination_address,
-      pickup_date,
-      supplier_name,
-      requester_name,
-      import_documents,
-      shipping_options,
-    };
-    insertPickupRequest(data)
-      .then((result) =>
-        commonHelper.response(res, result.rows, 201, "Create Data Successfull")
-      )
-      .catch((err) => res.send(err));
+    try {
+      const {
+        po_number,
+        part_name,
+        quantity,
+        dimensi_part,
+        weight,
+        pickup_address,
+        destination_address,
+        pickup_date,
+        supplier_name,
+        requester_name,
+        import_documents,
+        shipping_options,
+      } = req.body;
+
+      if (
+        !po_number ||
+        !part_name ||
+        !quantity ||
+        !pickup_address ||
+        !destination_address ||
+        !pickup_date ||
+        !supplier_name ||
+        !requester_name
+      ) {
+        return res
+          .status(400)
+          .json({ message: "Required fields are missing!" });
+      }
+
+      const id = uuidv4();
+      const data = {
+        id,
+        po_number,
+        part_name,
+        quantity,
+        dimensi_part,
+        weight,
+        pickup_address,
+        destination_address,
+        pickup_date,
+        supplier_name,
+        requester_name,
+        import_documents,
+        shipping_options,
+      };
+
+      const result = await insertPickupRequest(data);
+      commonHelper.response(res, result.rows, 201, "Create Data Successfully");
+    } catch (error) {
+      console.error("Error creating pickup request:", error);
+      res.status(500).json({
+        message: "Failed to create pickup request",
+        error: error.message,
+      });
+    }
   },
 
   updatePickupRequest: async (req, res) => {
@@ -132,7 +154,12 @@ const pickupRequestController = {
       };
       updatePickupRequest(data)
         .then((result) =>
-          commonHelper.response(res, result.rows, 200, "Update Data Successfull")
+          commonHelper.response(
+            res,
+            result.rows,
+            200,
+            "Update Data Successfull"
+          )
         )
         .catch((err) => res.send(err));
     } catch (error) {
@@ -149,7 +176,12 @@ const pickupRequestController = {
       }
       deletePickupRequest(id)
         .then((result) =>
-          commonHelper.response(res, result.rows, 200, "Delete Data Successfull")
+          commonHelper.response(
+            res,
+            result.rows,
+            200,
+            "Delete Data Successfull"
+          )
         )
         .catch((err) => res.send(err));
     } catch (error) {

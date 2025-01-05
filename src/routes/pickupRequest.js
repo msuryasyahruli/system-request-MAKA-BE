@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const pickupRequestController = require("../controller/pickupRequest");
+const upload = require("../middleware/upload");
 
 router
   .get("/", pickupRequestController.getAllPickupRequest)
   .get("/search", pickupRequestController.searching)
   .get("/:id", pickupRequestController.getDetailPickupRequest)
-  .post("/", pickupRequestController.createPickupRequest)
+  .post("/", upload, pickupRequestController.createPickupRequest)
   .put("/:id", pickupRequestController.updatePickupRequest)
   .delete("/:id", pickupRequestController.deletePickupRequest);
 
