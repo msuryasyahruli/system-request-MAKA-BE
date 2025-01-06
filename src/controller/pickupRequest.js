@@ -17,8 +17,8 @@ const pickupRequestController = {
       const page = Number(req.query.page) || 1;
       const limit = Number(req.query.limit) || 10;
       const offset = (page - 1) * limit;
-      const sortby = req.query.sortby || "id";
-      const sort = req.query.sort || "ASC";
+      const sortby = req.query.sortby || "request_date";
+      const sort = req.query.sort || "desc";
       const result = await selectAllPickupRequest(limit, offset, sortby, sort);
       const {
         rows: [count],
