@@ -121,6 +121,21 @@ const findId = (id) => {
   );
 };
 
+const findDoc = (doc) => {
+  return new Promise((resolve, reject) =>
+    Pool.query(
+      `SELECT import_documents FROM pickup_requests WHERE import_documents='${doc}'`,
+      (error, result) => {
+        if (!error) {
+          resolve(result);
+        } else {
+          reject(error);
+        }
+      }
+    )
+  );
+};
+
 const searching = (part_name) => {
   return Pool.query(
     `SELECT * FROM pickup_requests WHERE part_name ILIKE '%${part_name}%'`
@@ -135,5 +150,6 @@ module.exports = {
   deletePickupRequest,
   countData,
   findId,
+  findDoc,
   searching,
 };

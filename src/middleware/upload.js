@@ -1,25 +1,22 @@
 const multer = require('multer');
 const { failed } = require('../helper/common');
+
 const multerUpload = multer({
   storage: multer.diskStorage({}),
   fileFilter: (req, file, cb) => {
     const fileSize = parseInt(req.headers['content-length']);
-    const maxSize = 2 * 1024 * 1024;
+    const maxSize = 5 * 1024 * 1024;
     if (fileSize > maxSize) {
       const error = {
-        message: 'File size exceeds 2 MB',
+        message: 'File size exceeds 5 MB',
       };
       return cb(error, false);
     }
-    if (
-      file.mimetype === 'image/jpeg' ||
-      file.mimetype === 'image/png' ||
-      file.mimetype === 'image/jpg'
-    ) {
+    if (file.mimetype === 'application/pdf') {
       cb(null, true);
     } else {
       const error = {
-        message: 'file must be jpeg,jpg or png',
+        message: 'File must be a PDF',
       };
       cb(error, false);
     }
@@ -28,15 +25,10 @@ const multerUpload = multer({
 
 // middleware
 const upload = (req, res, next) => {
-  const multerSingle = multerUpload.single('image');
+  const multerSingle = multerUpload.single('import_documents');
   multerSingle(req, res, (err) => {
     if (err) {
-      failed(res, {
-        code: 500,
-        status: 'error',
-        message: err.message,
-        error: [],
-      });
+      failed(res, 400, err.message);
     } else {
       next();
     }

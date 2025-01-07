@@ -7,6 +7,7 @@ const {
   countData,
   findId,
   searching,
+  findDoc,
 } = require("../model/pickupRequest");
 const commonHelper = require("../helper/common");
 const { v4: uuidv4 } = require("uuid");
@@ -70,19 +71,31 @@ const pickupRequestController = {
         pickup_date,
         supplier_name,
         requester_name,
-        import_documents,
         shipping_options,
       } = req.body;
+
+      const file = await req.file.originalname;
+      const import_documents = file;
+
+      const { rowCount } = await findDoc(import_documents);
+      if (rowCount) {
+        return res.json({ message: "Document already exists" });
+      }
 
       if (
         !po_number ||
         !part_name ||
         !quantity ||
+        !dimensi_part ||
+        !weight ||
+        !total_cbm ||
         !pickup_address ||
         !destination_address ||
         !pickup_date ||
         !supplier_name ||
-        !requester_name
+        !requester_name ||
+        !import_documents ||
+        !shipping_options
       ) {
         return res
           .status(400)

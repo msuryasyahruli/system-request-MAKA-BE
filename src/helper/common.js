@@ -8,4 +8,12 @@ const response = (res, result, status, message, pagination) => {
   res.status(status).json(resultPrint);
 };
 
-module.exports = { response };
+const failed = (res, code, message) => {
+  const resultPrint = {};
+  resultPrint.status = "error";
+  resultPrint.statusCode = code;
+  resultPrint.message = message || null;
+  res.status(code).json(resultPrint);
+}
+
+module.exports = { response, failed };
