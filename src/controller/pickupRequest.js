@@ -118,7 +118,7 @@ const pickupRequestController = {
         requester_name,
         import_documents,
         shipping_options,
-        shipment_status: 'Waiting for confirmation',
+        shipment_status: 'Waiting',
       };
 
       const result = await insertPickupRequest(data);
