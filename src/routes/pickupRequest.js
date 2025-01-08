@@ -5,7 +5,6 @@ const upload = require("../middleware/upload");
 
 router
   .get("/", pickupRequestController.getAllPickupRequest)
-  .get("/search", pickupRequestController.searching)
   .get("/:id", pickupRequestController.getDetailPickupRequest)
   .post("/", upload, pickupRequestController.createPickupRequest)
   .put("/:id", pickupRequestController.updatePickupRequest)

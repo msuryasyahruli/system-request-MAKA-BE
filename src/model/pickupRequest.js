@@ -1,8 +1,8 @@
 const Pool = require("../config/db");
 
-const selectAllPickupRequest = (limit, offset, sortby, sort) => {
+const selectAllPickupRequest = (limit, offset, sortby, sort, search) => {
   return Pool.query(
-    `SELECT * FROM pickup_requests ORDER BY ${sortby} ${sort} LIMIT ${limit} OFFSET ${offset}`
+    `SELECT * FROM pickup_requests WHERE part_name ILIKE '%${search}%' ORDER BY ${sortby} ${sort} LIMIT ${limit} OFFSET ${offset}`
   );
 };
 
@@ -115,12 +115,6 @@ const findDoc = (doc) => {
   );
 };
 
-const searching = (part_name) => {
-  return Pool.query(
-    `SELECT * FROM pickup_requests WHERE part_name ILIKE '%${part_name}%'`
-  );
-};
-
 module.exports = {
   selectAllPickupRequest,
   selectPickupRequest,
@@ -130,5 +124,4 @@ module.exports = {
   countData,
   findId,
   findDoc,
-  searching,
 };

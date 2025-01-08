@@ -6,7 +6,6 @@ const {
   deletePickupRequest,
   countData,
   findId,
-  searching,
   findDoc,
 } = require("../model/pickupRequest");
 const commonHelper = require("../helper/common");
@@ -20,7 +19,8 @@ const pickupRequestController = {
       const offset = (page - 1) * limit;
       const sortby = req.query.sortby || "request_date";
       const sort = req.query.sort || "desc";
-      const result = await selectAllPickupRequest(limit, offset, sortby, sort);
+      const search = req.query.search || "";
+      const result = await selectAllPickupRequest(limit, offset, sortby, sort, search);
       const {
         rows: [count],
       } = await countData();
@@ -181,15 +181,6 @@ const pickupRequestController = {
     } catch (error) {
       console.log(error);
     }
-  },
-
-  searching: async (req, res) => {
-    const search = req.query.keyword;
-    searching(search)
-      .then((result) => {
-        commonHelper.response(res, result.rows, 200, "Search Data");
-      })
-      .catch((err) => res.send(err));
   },
 };
 
