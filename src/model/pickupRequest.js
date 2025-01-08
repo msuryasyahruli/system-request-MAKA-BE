@@ -26,6 +26,7 @@ const insertPickupRequest = (data) => {
     requester_name,
     import_documents,
     shipping_options,
+    shipment_status
   } = data;
   return Pool.query(
     `INSERT INTO pickup_requests(
@@ -42,7 +43,8 @@ const insertPickupRequest = (data) => {
       supplier_name,
       requester_name,
       import_documents,
-      shipping_options
+      shipping_options,
+      shipment_status
     ) VALUES (
      '${id}',
      '${po_number}',
@@ -57,7 +59,8 @@ const insertPickupRequest = (data) => {
      '${supplier_name}',
      '${requester_name}',
      '${import_documents}',
-     '${shipping_options}'
+     '${shipping_options}',
+     '${shipment_status}'
      )`
   );
 };
@@ -65,35 +68,11 @@ const insertPickupRequest = (data) => {
 const updatePickupRequest = (data) => {
   const {
     id,
-    po_number,
-    part_name,
-    quantity,
-    dimensi_part,
-    weight,
-    total_cbm,
-    pickup_address,
-    destination_address,
-    pickup_date,
-    supplier_name,
-    requester_name,
-    import_documents,
-    shipping_options,
+    shipment_status,
   } = data;
   return Pool.query(
     `UPDATE pickup_requests SET 
-    po_number = '${po_number}',
-    part_name = '${part_name}',
-    quantity = '${quantity}',
-    dimensi_part = '${dimensi_part}',
-    weight = '${weight}',
-    total_cbm = '${total_cbm}',
-    pickup_address = '${pickup_address}',
-    destination_address = '${destination_address}',
-    pickup_date = '${pickup_date}',
-    supplier_name = '${supplier_name}',
-    requester_name = '${requester_name}',
-    import_documents = '${import_documents}',
-    shipping_options = '${shipping_options}' 
+    shipment_status = '${shipment_status}' 
     WHERE id='${id}'`
   );
 };

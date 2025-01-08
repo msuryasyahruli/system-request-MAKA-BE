@@ -15,6 +15,7 @@ CREATE TABLE pickup_requests (
     requester_name VARCHAR(100) NOT NULL,
     import_documents TEXT NOT NULL,
     shipping_options VARCHAR(255) NOT NULL,
+    shipment_status VARCHAR(50) NOT NULL,
     request_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
@@ -37,7 +38,8 @@ INSERT INTO
         supplier_name,
         requester_name,
         import_documents,
-        shipping_options
+        shipping_options,
+        shipment_status
     )
 VALUES (
         '1',
@@ -53,7 +55,8 @@ VALUES (
         'PT. Motor Listrik Indonesia',
         'Budi',
         'file1.pdf, file2.pdf',
-        'JNE, J&T'
+        'JNE, J&T',
+        'In Delivery'
     );
 
 UPDATE pickup_requests
@@ -70,7 +73,8 @@ SET
     supplier_name = 'PT. Motor Listrik Indonesia 2',
     requester_name = 'Budi 2',
     import_documents = 'file3.pdf, file4.pdf',
-    shipping_options = 'JNE, J&T 2'
+    shipping_options = 'JNE, J&T 2',
+    shipment_status = 'Arrive at the destination'
 WHERE
     id = '1';
 

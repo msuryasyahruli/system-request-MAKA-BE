@@ -118,6 +118,7 @@ const pickupRequestController = {
         requester_name,
         import_documents,
         shipping_options,
+        shipment_status: 'Waiting for confirmation',
       };
 
       const result = await insertPickupRequest(data);
@@ -135,19 +136,7 @@ const pickupRequestController = {
     try {
       const id = String(req.params.id);
       const {
-        po_number,
-        part_name,
-        quantity,
-        dimensi_part,
-        weight,
-        total_cbm,
-        pickup_address,
-        destination_address,
-        pickup_date,
-        supplier_name,
-        requester_name,
-        import_documents,
-        shipping_options,
+        shipment_status,
       } = req.body;
       const { rowCount } = await findId(id);
       if (!rowCount) {
@@ -155,19 +144,7 @@ const pickupRequestController = {
       }
       const data = {
         id,
-        po_number,
-        part_name,
-        quantity,
-        dimensi_part,
-        weight,
-        total_cbm,
-        pickup_address,
-        destination_address,
-        pickup_date,
-        supplier_name,
-        requester_name,
-        import_documents,
-        shipping_options,
+        shipment_status,
       };
       updatePickupRequest(data)
         .then((result) =>
